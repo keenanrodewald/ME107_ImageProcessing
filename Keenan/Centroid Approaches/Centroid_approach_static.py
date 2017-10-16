@@ -1,6 +1,5 @@
-import numpy as np
 import cv2
-import MyImageFunctions
+
 #Start webcam capture
 cv2.namedWindow('frame')
 

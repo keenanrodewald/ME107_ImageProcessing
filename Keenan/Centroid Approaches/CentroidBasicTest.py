@@ -1,6 +1,4 @@
-import numpy as np
 import cv2
-import MyImageFunctions
 
 cv2.namedWindow('frame')
 
