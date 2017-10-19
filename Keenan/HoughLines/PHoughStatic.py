@@ -4,7 +4,7 @@ import cv2
 
 
 # Capture frame-by-frame
-img = cv2.imread('pics/GraphPic.jpg')
+img = cv2.imread('Keenan/pics/GraphPic.jpg')
 
 # Our operations on the frame come here
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)

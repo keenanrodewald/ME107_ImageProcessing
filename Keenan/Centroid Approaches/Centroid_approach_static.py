@@ -3,7 +3,7 @@ import cv2
 #Start webcam capture
 cv2.namedWindow('frame')
 
-testFrame = cv2.imread("pics/ThickLine.jpg")
+testFrame = cv2.imread("whiteLine.jpg")
 shape = testFrame.shape
 height = shape[0]
 length = shape[1]
@@ -51,7 +51,6 @@ im2, contours, hierarchy = cv2.findContours(processed, 1, 2)
 color = cv2.cvtColor(processed, cv2.COLOR_GRAY2BGR)
 cv2.drawContours(color, contours, -1, (0, 255, 0), 3)
 
-cv2.imshow('frame', bottomRow)
-cv2.waitKey(0)
+
 
 

@@ -1,17 +1,12 @@
 import cv2
+import Keenan.MyImageFunctions as imfun
 
 cv2.namedWindow('frame')
 
-imageOG = cv2.imread("pics/whiteLine.jpg")
-gray = cv2.cvtColor(imageOG, cv2.COLOR_BGR2GRAY)
+imageOG = cv2.imread("whiteLine.jpg")
+centArr = imfun.imToCentroidArray(imageOG, 6)
 
-#MyImageFunctions.MyImageFunctions.whiteBorderGreyIm(gray)
-
-
-im2, contours, hierarchy = cv2.findContours(gray, 1, 2)
-
-color = cv2.cvtColor(gray, cv2.COLOR_GRAY2BGR)
-cv2.drawContours(color, contours, -1, (0, 255, 0), 1)
-
-cv2.imshow('frame', color)
+cv2.imshow('frame', imageOG)
 cv2.waitKey(0)
+
+print(centArr)
