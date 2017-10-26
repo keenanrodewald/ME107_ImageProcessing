@@ -18,8 +18,7 @@ def splitImageRows(image, numRows):
 def threshErode(image):
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     ret, thresh = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)
-    # Need to invert because original image was black line on white background
-    thresh = (255 - thresh)
+
     kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (9, 9))
     eroded = cv2.erode(thresh, kernel)
     return eroded
@@ -63,6 +62,8 @@ def findCentroid(threshIm):
     else:
         return 0
 
+
+
 def imToCentroidArray(image, numRows):
     threshedEroded = threshErode(image)
     # split into rows
@@ -70,16 +71,30 @@ def imToCentroidArray(image, numRows):
 
     # centroid array contains the centroid of each row. From top row to bottom row.
     centroidArr = []
-    for i in range(0, len(rows) - 1):
+    for i in range(0, len(rows)):
         xCentroid = findCentroid(rows[i])
         centroidArr.append(xCentroid)
 
     return centroidArr
 
+#takes image and returns array of centroid positions
+def imToCentroidArray_noFD(image, numRows):
+    threshedEroded = threshErode(image)
+    rows = splitImageRows()
+
+    # centroid array contains the centroid of each row. From top row to bottom row.
+    centroidArr = []
+    for i in range(0, len(rows) -1 ):
+        xCentroid = findCentroid(rows[i])
+        centroidArr.append(xCentroid)
+
+    return centroidArr
+
+
 def showRows(image, numRows):
     # Find length and height of input image
-    shape = image.shape
-    height = shape[0]
+    Imshape = image.shape
+    height = Imshape[0]
     rowHeight = round(height / numRows)
     # Iterate through each row and draw line at each rowDivision
     for i in range(0, numRows):
@@ -91,7 +106,17 @@ def showCentroids(image, numRows, centroidArr):
     height = shape[0]
     rowHeight = round(height / numRows)
     # Iterate through each row and draw line at each rowDivision
-    for i in range(0, numRows -1):
+    for i in range(0, numRows ):
         y = rowHeight*i + round((rowHeight / 2))
         x = centroidArr[i]
         cv2.circle(image, (x,y), 10, [0, 255, 0], -1)
+
+def centroidToError(centroidArr, originalImage):
+    imShape = originalImage.shape
+    imWidth = imShape[1]
+
+    errorArr = []
+    for i in range(0, len(centroidArr)):
+        errorArr.append(centroidArr[i] - (imWidth /2))
+
+    return errorArr

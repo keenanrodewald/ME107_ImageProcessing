@@ -17,6 +17,7 @@ while(True):
     myimfun.showCentroids(currFrame, numRows, centroidArr)
 
     cv2.imshow('frame', currFrame)
+    cv2.waitKey(0)
 
     """ converts image back to color and draws found contours
     color = cv2.cvtColor(bottomRow, cv2.COLOR_GRAY2BGR)
