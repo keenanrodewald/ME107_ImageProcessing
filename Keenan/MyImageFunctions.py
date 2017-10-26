@@ -53,16 +53,25 @@ def whiteBorderGreyIm(image):
     image[0:imHeight-1, 0] = 255
 
 # Finds x centroid of input image. Input image should be a binary thresholded image. Recomended to erode the thresholded image
+# If no contours can be found, then centroid returns as -1
 def findCentroid(threshIm):
     im2, contours, hierarchy = cv2.findContours(threshIm, 1, 2)
-    M = cv2.moments(contours[0])
-    if M['m00'] != 0:
-        cx = int(M['m10'] / M['m00'])
-        return cx
+
+    # If contours is not empty
+    if contours:
+
+        M = cv2.moments(contours[0])
+
+        #checks for error in Moment feedback.
+        if M['m00'] != 0:
+            cx = int(M['m10'] / M['m00'])
+            return cx
+
+        else:
+            return -1
+
     else:
-        return 0
-
-
+        return -1
 
 def imToCentroidArray(image, numRows):
     threshedEroded = threshErode(image)
@@ -77,18 +86,6 @@ def imToCentroidArray(image, numRows):
 
     return centroidArr
 
-#takes image and returns array of centroid positions
-def imToCentroidArray_noFD(image, numRows):
-    threshedEroded = threshErode(image)
-    rows = splitImageRows()
-
-    # centroid array contains the centroid of each row. From top row to bottom row.
-    centroidArr = []
-    for i in range(0, len(rows) -1 ):
-        xCentroid = findCentroid(rows[i])
-        centroidArr.append(xCentroid)
-
-    return centroidArr
 
 
 def showRows(image, numRows):
